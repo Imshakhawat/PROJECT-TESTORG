@@ -1,0 +1,4 @@
+dont create random files 
+create files in your own project directory then add them here
+use this repo carefully please and always try to sync and create backups in your own drive 
+if you cant use git in vs code the manually upload your files into the web site into your specific folder 
