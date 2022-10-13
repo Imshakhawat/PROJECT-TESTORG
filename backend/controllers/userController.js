@@ -17,9 +17,10 @@ const loginUser = async (req, res) => {
     // console.log(user.email,user.password,user.usertype);
 
     //create a token
+    const name = user.username;
     const token = createToken(user._id);
 
-    res.status(200).json({ email, token });
+    res.status(200).json({ name, email, token });
   } catch (error) {
     res.status(400).json({ error: error.message });
   }
@@ -27,6 +28,7 @@ const loginUser = async (req, res) => {
 
 //signup user
 const signupUser = async (req, res) => {
+  console.log(req.body)
   const { isVerified, usertype, username, email, password } = req.body;
   try {
     const user = await userModel.signup(
