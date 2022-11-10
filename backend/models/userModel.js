@@ -39,6 +39,7 @@ userSchema.statics.signup = async function (
   email,
   password
 ) {
+  // console.log(isVerified, usertype, username, email, password);
   //validation
   if (!email || !password || !usertype || !username) {
     throw Error("All fields must be field");
@@ -47,10 +48,13 @@ userSchema.statics.signup = async function (
     throw Error("Email isn't valid");
   }
   if (!validator.isStrongPassword(password)) {
-    throw Error("Password isn't strong enough");
+    throw Error(
+      "For Password Use 8 or more characters with a mix of letters, numbers & symbols"
+    );
   }
   const exist = await this.findOne({ email });
   if (exist) {
+    // console.log("exist");
     throw Error("Email already in use");
   }
 
