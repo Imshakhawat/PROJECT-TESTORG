@@ -3,6 +3,7 @@ require("dotenv").config();
 const express = require("express");
 const mongoose = require("mongoose");
 const cors = require("cors");
+const cookieParser = require("cookie-parser")
 const userRoutes = require("./routes/userRoutes");
 
 //express app
@@ -10,10 +11,12 @@ const app = express();
 
 //middlewear
 app.use(express.json());
-app.use(cors());
+// app.use(cors());
+app.use(cors({ origin: true, credentials: true }))
+app.use(cookieParser());
 
 app.use((req, res, next) => {
-  console.log(req.path, req.method);
+  console.log(req.path, req.method, req.cookies);
   next();
 });
 

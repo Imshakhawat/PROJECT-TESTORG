@@ -88,9 +88,9 @@ userSchema.statics.login = async function (email, password) {
   if (!match) {
     throw Error("Invalid login credentials");
   }
-  // if(!user.isVerified){
-  //   throw Error("Please confirm your email to login");
-  // }
+  if(!user.isVerified){
+    throw Error("Please confirm your email to login");
+  }
 
   return user;
 };
