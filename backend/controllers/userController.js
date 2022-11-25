@@ -23,7 +23,7 @@ const loginUser = async (req, res) => {
     const name = user.username;
     const token = createToken(user._id);
 
-    // jwt.verify(token,process.env.SECRET,(err,decodedToken)=>{
+    // jwt.verify(token,process.env.SECRET,(err,decodedToken)=>{//await
     //   console.log(decodedToken._id);
     // })
 

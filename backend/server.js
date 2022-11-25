@@ -5,6 +5,7 @@ const mongoose = require("mongoose");
 const cors = require("cors");
 const cookieParser = require("cookie-parser")
 const userRoutes = require("./routes/userRoutes");
+const roomRoutes = require("./routes/roomRoutes")
 
 //express app
 const app = express();
@@ -22,6 +23,7 @@ app.use((req, res, next) => {
 
 //routes
 app.use(userRoutes);
+app.use("/room",roomRoutes);
 
 app.get("/", (req, res) => {
   res.json({ msg: "hello world" });

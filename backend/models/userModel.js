@@ -29,6 +29,9 @@ const userSchema = new mongoose.Schema({
     type: Boolean,
     default: false,
   },
+  myRooms:{
+    type: []
+  }
 });
 
 //static signup method
