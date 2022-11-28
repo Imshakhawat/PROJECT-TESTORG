@@ -6,38 +6,65 @@ const roomSchema = new mongoose.Schema({
     teacherName:{
         type:String
     },
-    courseName:{
-        type:String        
-    },
     teacherId:{
         type: mongoose.Schema.Types.ObjectId
+    },
+    courseName:{
+        type: String
     },
     questions:{
         type:[]
     },
     student:{
         type:[]
-    }
+    },
+    startTime : {
+        type: Date
+    },
+    endTime : {
+        type: Date
+    },
+    createdAt : {type: Date},
 })
 
-roomSchema.statics.createQuestion = async function (doc,question){
-    const room = await this.create({
-        teacherId : doc._id,
-        teacherName : doc.username,
-        questions : question
+roomSchema.statics.createRoom = async function (userDoc,room){
+    const newRoom = await this.create({ 
+        teacherId : userDoc._id,
+        teacherName : userDoc.username,
+        courseName : room.courseName,
+        questions : room.question,
+        startTime : room.startTime,
+        endTime : room.endTime,
+        createdAt : room.createdAt   
     })
-    const result = await userModel.updateOne({_id:doc._id},{$push : {myRooms:room._id}})
+    const result = await userModel.updateOne({_id:userDoc._id},{$push : {
+        myRooms:
+        {
+            "roomID" :newRoom._id,
+            "startTime" : room.startTime,
+            "endTime" : room.endTime,
+            "CourseName" : room.courseName,
+            "CreatedAt" : room.createdAt
+        }
+    }})
     return result.acknowledged
 }
 
-roomSchema.statics.getQuestion = async function(id){
-    await this.findById(id, async function(err,doc){
-        if(err)//doesnt exists;
-        {
-            res.status(400).json({msg : "Unauthorized access"})////unauthorized access
+roomSchema.statics.myRoom = async function(id){
+    const roomData = await userModel.find({_id:id},{myRooms:1})
+    // console.log(roomData)
+    return roomData;
+}
+
+roomSchema.statics.roomInfo = async function(userDoc)
+{
+    this.findById(id, (err,doc)=>{
+        if(err){
+            throw Error("Room doesnt exist");
         }
         else{
-            return
+            console.log(doc);
+            return doc;
         }
     })
 }

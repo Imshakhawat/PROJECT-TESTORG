@@ -3,7 +3,6 @@
 //     res.json({msg : "room working fine"});
 // }
 // const q_form = 
-
 // [
 //     {
 //         "q_no": 1,
@@ -48,46 +47,36 @@ const userVerified = (token) =>{
         }
     })
 }
-const questionPost = async (req,res) => {
+const roomPost = async (req,res) => {
     userVerified(req.cookies.jwt)
+
     if(id)
     {
-        userModel.findById(id, async function(err,doc){
+        userModel.findById(id, async function(err,userDoc){
             if(err)//doesnt exists;
             {
                 res.status(400).json({msg : "Unauthorized access"})////unauthorized access
             }
             else{
-                const response = await roomModel.createQuestion(doc,req.body)
+                const response = await roomModel.createRoom(userDoc,req.body)
                 if(response)
                     res.status(201).json({msg : "Questions Created Successfully"})
                 else
                     res.status(500).json({err : "Question Creation failed"})
             }
         })
-        
-        
-
     }
     else{
         console.log("Unauthorized access");//404
         res.status(400).json({msg : "Unauthorized access"})
     }
 }
-const questionGet = async (req,res) =>{
+const myroomGet = async (req,res) =>{
     userVerified(req.cookies.jwt)
     if(id)
     {
-        await roomModel.findById(req.body._id, function(err,doc){
-            if(err)//doesnt exists;
-            {
-                res.status(400).json({msg : "Unauthorized access"})////unauthorized access
-            }
-            else{
-                res.status(200).json(doc);
-            }
-        })
-        console.log(response) 
+        const response = await roomModel.myRoom(req.body);
+        res.status(200).json(response)      
     }
     else{
         console.log("Unauthorized access");//404
@@ -95,4 +84,25 @@ const questionGet = async (req,res) =>{
     }
 }
 
-module.exports = {questionPost, questionGet}
+const viewRoom = async (req,res) =>{
+    userVerified(req.cookies.jwt)
+    if(id)
+    {
+        console.log(req.body)
+        roomModel.findById(req.body, async function(err,userDoc){
+            if(err)
+            {
+                res.status(400).json({msg : "Room Doesnt exist"})
+            }
+            else{
+                res.status(200).json(userDoc);
+            }
+        })
+    }
+    else{
+        console.log("Unauthorized access");//404
+        res.status(400).json({msg : "Unauthorized access"})
+    }
+}
+
+module.exports = {roomPost, myroomGet, viewRoom}

@@ -2,10 +2,10 @@ const { Router } = require("express");
 const router = Router();
 
 //controllers
-const { questionPost, questionGet } = require("../controllers/roomController");
+const { roomPost, myroomGet, viewRoom} = require("../controllers/roomController");
 
-router.post("/add-question",questionPost);
-router.get("/get-question",questionGet);
-// router.get("/view-all",viewRooms)
+router.post("/add-room",roomPost);
+router.get("/my-room",myroomGet);
+router.get("/view-room",viewRoom)
 
 module.exports = router;
