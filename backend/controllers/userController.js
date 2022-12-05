@@ -34,6 +34,12 @@ const loginUser = async (req, res) => {
   }
 };
 
+//logout user
+const logoutUser = (req,res) =>{
+  res.cookie("jwt",'',{maxAge : 1});
+  res.redirect("/")
+}
+
 //signup user
 const signupUser = async (req, res) => {
   console.log(req.body);
@@ -109,4 +115,4 @@ const sendMail = (url, email) => {
   });
 };
 
-module.exports = { signupUser, loginUser, verifyUser, resendMail };
+module.exports = { signupUser, loginUser, logoutUser, verifyUser, resendMail };
